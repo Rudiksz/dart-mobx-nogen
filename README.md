@@ -12,6 +12,18 @@
 
 * Snippets to quickly create the boilerplate for observables, computed fields and actions
     ![snippets](images/snippets.gif)
+
+## Requirements
+   Add the below extension to your project and import in the your "Store" files, for computeds and actions to work.
+
+   ```Dart
+    typedef T ComputedFn<T>();
+    extension MobxFunctionExtension on Function {
+        Action get action => Action(this);
+        Computed<T> computed<T>() => Computed<T>(this as ComputedFn<T>);
+    }
+``` 
+
 ## ROADMAP
 * Improve toggle feature
 * Option to exclude computed fields and actions when folding all regions
