@@ -1,0 +1,77 @@
+{
+  "name": "dart-mobx-nogen",
+  "displayName": "Dart Mobx nogen",
+  "description": "Utilities for using Dart MobX without code generation.",
+  "version": "1.0.0",
+  "engines": {
+    "vscode": "^1.55.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/"
+  },
+  "activationEvents": [
+    "onLanguage:dart",
+    "onCommand:dart-mobx-nogen.toggleRegions",
+    "onCommand:dart-mobx-nogen.toggleActiveRegion"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "dart-mobx-nogen.toggleRegions",
+        "title": "Mobx: toggle all regions",
+        "when": "editorLangId == dart"
+      },
+      {
+        "command": "dart-mobx-nogen.toggleActiveRegion",
+        "title": "Mobx: toggle current region",
+        "when": "editorLangId == dart"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "dart-mobx-nogen.toggleRegions",
+        "key": "ctrl+m ctrl+k",
+        "mac": "cmd+m cmd+k",
+        "when": "editorTextFocus && editorLangId == dart"
+      },
+      {
+        "command": "dart-mobx-nogen.toggleActiveRegion",
+        "key": "ctrl+m ctrl+m",
+        "mac": "cmd+m cmd+m",
+        "when": "editorTextFocus && editorLangId == dart"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "dart",
+        "path": "./snippets/snippets.json"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.1.3",
+    "@types/mocha": "^8.0.4",
+    "@types/node": "^12.11.7",
+    "@types/vscode": "^1.55.0",
+    "@typescript-eslint/eslint-plugin": "^4.14.1",
+    "@typescript-eslint/parser": "^4.14.1",
+    "eslint": "^7.19.0",
+    "glob": "^7.1.6",
+    "mocha": "^8.2.1",
+    "typescript": "^4.1.3",
+    "vscode-test": "^1.5.0"
+  }
+}
