@@ -5,9 +5,9 @@
 			"//@observable",
 			"${1:String} get ${2:value} => _${2:value}.value;",
 			"final _${2:value} = Observable(${3:DEFAULT});",
-			"set ${2:value}(${1:String} ${2:value}) => set${2:value}([${2:value}]);",
-			"late final set${2:value} = _set${2:value}.action;",
-			"void _set${2:value}(${1:String} value) => _${2:value}.value = value;",
+			"set ${2:value}(${1:String} ${2:value}) => _set${2:value}([${2:value}]);",
+			"late final _set${2:value} = __set${2:value}.action;",
+			"void __set${2:value}(${1:String} value) => _${2:value}.value = value;",
 			"//@-observable"
 		],
 		"description": "observable"
@@ -17,7 +17,7 @@
 		"body": [
 			"//@computed",
 			"${1:String} get ${2:value} => _${2:value}.computed<${1:String}>().value;",
-			"${1:String} _${2:value}() => throw Exception('${2:value} is not implemented');", 
+			"${1:String} _${2:value}() {}", 
 			"//@-computed"
 		],
 		"description": "computed"
@@ -25,11 +25,11 @@
 	  "action": {
 		"prefix": "act",
 		"body": [
-		  "//@action",
-		  "late final ${1:action} = _${1:action}.action;",
-		  "void _${1:action}() {",
-		  "}",
-		  "//@-action"
+			"//@action",
+			"void ${1:name}(${2:params}) => _${1:name}Action([${3:paramNames}]);",
+			"late final _${1:name}Action = _${1:name}.action;",
+			"void _${1:name}(${2:params}) {}",
+			"//@-action"
 		],
 		"description": "action"
 	  }

@@ -2,16 +2,20 @@
   "name": "dart-mobx-nogen",
   "displayName": "Dart Mobx nogen",
   "description": "Utilities for using Dart MobX without code generation.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "engines": {
     "vscode": "^1.55.0"
   },
   "categories": [
-    "Other"
+    "Formatters", "Snippets"
   ],
+  "publisher": "rudoka",
+  "author": {
+    "name": "Rudolf Martincsek"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/"
+    "url": "https://github.com/Rudiksz/dart-mobx-nogen"
   },
   "activationEvents": [
     "onLanguage:dart",

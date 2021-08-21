@@ -5,12 +5,10 @@ export function activate(context: vscode.ExtensionContext) {
 	let activeFileFilters = [{ language: "dart", scheme: "file" }];
 	context.subscriptions.push(vscode.languages.registerFoldingRangeProvider(activeFileFilters, new MobxFoldingProvider()));
 
-	vscode.workspace.onDidOpenTextDocument((document) => RegionProvider.foldRegions(document, false, false));
 	vscode.window.visibleTextEditors.forEach((vte) => RegionProvider.foldRegions(vte.document, false, false));
 
 	context.subscriptions.push(vscode.commands.registerCommand('dart-mobx-nogen.toggleRegions', () => RegionProvider.foldRegions()));
 	context.subscriptions.push(vscode.commands.registerCommand('dart-mobx-nogen.toggleActiveRegion', () => RegionProvider.foldRegions(undefined, true)));
-
 
 	let lastDecorations = new Map<any, vscode.TextEditorDecorationType>();
 
@@ -71,7 +69,7 @@ const decorationLowlight = function (opacity: string) : any {
 	const sourceCodeArr = sourceCode.split('\n');
 	for (let line = 0; line < sourceCodeArr.length; line++) {
 		
-		let match = sourceCodeArr[line].match(startString)
+		let match = sourceCodeArr[line].match(startString);
 
 		if (match !== null && match.index !== undefined) {
 			let nextLine = sourceCodeArr[line+1];
@@ -100,9 +98,8 @@ export class MobxFoldingProvider implements FoldingRangeProvider {
 	constructor() { }
 
 	public async provideFoldingRanges(document: TextDocument, context: FoldingContext, token: CancellationToken): Promise<FoldingRange[] | undefined> {
-		if (token && token.isCancellationRequested)
-			return;
-		return RegionProvider.getRegions(document)
+		if (token && token.isCancellationRequested) {return;}
+		return RegionProvider.getRegions(document);
 	}
 }
 
@@ -110,18 +107,18 @@ export class RegionProvider {
 	private static lastFoldStatus = new Map<any, boolean>();
 
 	public static getRegions(document: vscode.TextDocument): vscode.FoldingRange[] {
-		let sourceCode = document.getText()
+		let sourceCode = document.getText();
 
-		let startString = "(//@observable)|(//@computed)|(//@action)"
-		let endString = "(//@-observable)|(//@-computed)|(//@-action)"
+		let startString = "(//@observable)|(//@computed)|(//@action)";
+		let endString = "(//@-observable)|(//@-computed)|(//@-action)";
 
 		let regions = new Array<vscode.FoldingRange>();
-		const sourceCodeArr = sourceCode.split('\n')
+		const sourceCodeArr = sourceCode.split('\n');
 
 		let rangeStart = undefined;
 		for (let line = 0; line < sourceCodeArr.length; line++) {
 			
-			let match = sourceCodeArr[line].match(rangeStart === undefined ? startString : endString)
+			let match = sourceCodeArr[line].match(rangeStart === undefined ? startString : endString);
 
 			if (match !== null && match.index !== undefined) {
 				if (rangeStart === undefined) {
@@ -132,34 +129,34 @@ export class RegionProvider {
 				let range = new vscode.FoldingRange(
 					rangeStart+1,
 					line
-				)
+				);
 				
 				regions.push(range);			
 				rangeStart = undefined;
 			}
 		}
-		return regions
+		return regions;
 	}
 
 	public static async foldRegions(document?: vscode.TextDocument | undefined, onlyActive: boolean = false, toggle: boolean = true){
 		document ??= vscode.window.activeTextEditor?.document;
-		if (document == undefined) return;
+		if (document === undefined) { return; }
 
 		let cursorPosition = this.getTextEditor(document)?.selection.active.line;
 
-		let regions = this.getRegions(document)
-		let regionLines = []; //[13,14,15,16,17,18];
+		let regions = this.getRegions(document);
+		let regionLines = [];
         for (const region of regions) {
-			if (!onlyActive || (cursorPosition != null && cursorPosition >= region.start && cursorPosition <= region.end)){
+			if (!onlyActive || (cursorPosition !== null && cursorPosition !== undefined && cursorPosition >= region.start && cursorPosition <= region.end)){
 				regionLines.push(region.start);		
 			}
 		}
 
-		if (regionLines.length == 0) {
+		if (regionLines.length === 0) {
 			return;
 		}
 
-		let regionKey = document.fileName + (onlyActive ? ':' + regionLines[0] : '')
+		let regionKey = document.fileName + (onlyActive ? ':' + regionLines[0] : '');
 		let status = this.lastFoldStatus.get(regionKey) ?? true;
 		if (toggle) {
 			status = !status;
@@ -170,7 +167,6 @@ export class RegionProvider {
 	}
 
     private static getTextEditor(document: vscode.TextDocument): vscode.TextEditor | null {
-
         for (let te of vscode.window.visibleTextEditors) {
             if (te.document.fileName === document.fileName) {
                 return te;
