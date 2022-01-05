@@ -1,6 +1,6 @@
 {
-	"observable": {
-		"prefix": "obs",
+	"MobX ObservableX": {
+		"prefix": "obsx",
 		"body": [
 			"//@observable",
 			"${1:String} get ${2:value} => _${2:value}.value;",
@@ -11,13 +11,24 @@
 			"//@-observable"
 		],
 		"description": "observable"
+	  },	
+	  "MobX Observable": {
+		"prefix": "obs",
+		"body": [
+			"//@observable",
+			"${1:String} get ${2:value} => _${2:value}.value;",
+			"final _${2:value} = Observable(${3:String});",
+			"set ${2:value}(${1:String} value) => _${2:value}.value = value;",
+			"//@-observable"
+		],
+		"description": "observable"
 	  },
 	  "computed": {
 		"prefix": "comp",
 		"body": [
 			"//@computed",
-			"${1:String} get ${2:value} => _${2:value}.computed<${1:String}>().value;",
-			"${1:String} _${2:value}() {}", 
+			"${1:String} get ${2:value} => _${2:String}.value;",
+			"late final _${2:value} = Computed<${1:String}>(() {});", 
 			"//@-computed"
 		],
 		"description": "computed"
@@ -26,9 +37,8 @@
 		"prefix": "act",
 		"body": [
 			"//@action",
-			"void ${1:name}(${2:params}) => _${1:name}Action([${3:paramNames}]);",
-			"late final _${1:name}Action = _${1:name}.action;",
-			"void _${1:name}(${2:params}) {}",
+			"void ${1:name}(${2:params}) => _${1:name}([${3:paramNames}]);",
+			"late final _${1:name} = Action((${2:params}) {});",
 			"//@-action"
 		],
 		"description": "action"

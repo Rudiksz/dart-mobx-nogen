@@ -2,7 +2,7 @@
   "name": "dart-mobx-nogen",
   "displayName": "Dart Mobx nogen",
   "description": "Utilities for using Dart MobX without code generation.",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "engines": {
     "vscode": "^1.55.0"
   },
